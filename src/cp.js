@@ -2,6 +2,7 @@
 const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
 const COMMIT_ID = process.env.COMMIT_ID;
 const VERSION = process.env.VERSION;
+const POPUP_URL = process.env.POPUP_URL || "https://crewpass-login.netlify.app/login";
 
 (function (window, document) {
   class CrewPass {
@@ -15,7 +16,7 @@ const VERSION = process.env.VERSION;
       return window.location.origin;
     }
     getLoginPopupUrl() {
-      return "http://127.0.0.1:3000/login?origin=" + this.getCurrentOrigin();
+      return `${POPUP_URL}?origin=${this.getCurrentOrigin()}`;
     }
     setup(callback) {
       console.log("setup: ", this.vendor);

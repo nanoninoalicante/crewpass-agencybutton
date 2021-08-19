@@ -15,7 +15,8 @@ module.exports = (env) => {
             new webpack.DefinePlugin({
                 'process.env.CLIENT_DATA_URL': JSON.stringify(process.env.CLIENT_DATA_URL),
                 'process.env.VERSION': JSON.stringify(process.env.VERSION || ""),
-                'process.env.COMMIT_ID': JSON.stringify(process.env.COMMIT_ID || "")
+                'process.env.COMMIT_ID': JSON.stringify(process.env.COMMIT_ID || ""),
+                'process.env.POPUP_URL': JSON.stringify(process.env.POPUP_URL || "")
             }),
         ],
     };
