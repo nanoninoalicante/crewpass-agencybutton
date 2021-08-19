@@ -1,0 +1,42 @@
+div#cp-login, div#cp-login-response {
+    display: none;
+    width: 250px;
+    height: auto;
+    padding: 10px 5px;
+    margin: 0;
+    background-color: cyan;
+    font-family: "Helvetica", "Arial", sans-serif;
+    color: darkblue;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration:none;
+    cursor: default;
+}
+div#cp-login {
+    display: inline-block;
+    cursor: pointer;
+}
+div#cp-login-response {
+    background-color: grey;
+    color: black;
+}
+div#cp-login:hover {
+    background-color: #006ad4;
+    color: white;
+}
+div#cp-login.disabled {
+    display: none;
+    cursor: none;
+}
+div#cp-login-response.verified {
+    display: inline-block;
+    background-color: green;
+    color: white;
+}
+div#cp-login-response.failed {
+    display: inline-block;
+    background-color: darkred;
+    color: white;
+}

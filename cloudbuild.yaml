@@ -1,0 +1,12 @@
+steps:
+  # build the container image  # build the container image
+  - name: 'node'
+    entrypoint: npm
+    args: ['install']
+  - name: 'node'
+    entrypoint: npm
+    args: ['run', 'webpack']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['cp', 'dist/cp.js', 'gs://${_PROJECT_ID}-login/${_APP_NAME}-${_APP_ENV}-${_APP_VERSION}.js']
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['cp', 'public/button.css', 'gs://${_PROJECT_ID}-login/${_APP_NAME}-${_APP_ENV}-${_APP_VERSION}.css']

@@ -1,0 +1,18 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>popup</title>
+    <script type="text/javascript">
+        function popupCallback(str) {
+            if(window.opener) {
+                window.opener.popupCallback(str);
+                window.close();
+            }
+        }
+    </script>
+</head>
+<body>
+<p>hi</p>
+<a href="javascript:popupCallback({'message': 'Verified', 'status': 'verified'});">Click to go back</a>
+</body>
+</html>
