@@ -5,7 +5,7 @@ steps:
     args: ['install']
   - name: 'node'
     entrypoint: npm
-    args: ['run', 'webpack']
+    args: ['run', 'build']
   - name: 'gcr.io/cloud-builders/gsutil'
     args: ['cp', 'dist/cp.js', 'gs://${_PROJECT_ID}-loginbutton/${_APP_NAME}-${_APP_ENV}-${_APP_VERSION}.js']
   - name: 'gcr.io/cloud-builders/gsutil'
