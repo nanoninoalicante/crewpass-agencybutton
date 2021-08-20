@@ -3,6 +3,7 @@ const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
 const COMMIT_ID = process.env.COMMIT_ID;
 const VERSION = process.env.VERSION;
 const POPUP_URL = process.env.POPUP_URL || "https://crewpass-login.netlify.app/login";
+// const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000/login";
 
 (function (window, document) {
   class CrewPass {
@@ -11,6 +12,9 @@ const POPUP_URL = process.env.POPUP_URL || "https://crewpass-login.netlify.app/l
       this.button = "";
       this.buttonText = "Continue with Crew Pass";
       this.status = "not-checked";
+      this.subscriptionStatus = "";
+      this.user = "";
+      this.formInputAttached = false;
     }
     getCurrentOrigin() {
       return window.location.origin;
@@ -79,12 +83,30 @@ const POPUP_URL = process.env.POPUP_URL || "https://crewpass-login.netlify.app/l
         button.innerHTML = this.buttonText;
         return null;
       }
+      this.status = res.status;
+      this.user = res.user;
+      this.subscriptionStatus = res.subscriptionStatus;
       button.classList.add("disabled");
       const response = document.querySelector("div#cp-login-response");
-      response.classList.add(res.status);
+      response.classList.add(this.status);
       response.innerHTML = res.message;
+      if(!this.formInputAttached) {
+        this.attachResponseToForm();
+      }
       // ATTACH RESPONSE TO FORM
     }
+
+    attachResponseToForm(){
+      const form = document.querySelector("form");
+      console.log("form: ", form);
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", "crewpass-crew-status");
+      input.setAttribute("value", this.status);
+      form.appendChild(input);
+      this.formInputAttached = true;
+    }
+
   }
   window.CrewPass = CrewPass;
 })(window, document);
