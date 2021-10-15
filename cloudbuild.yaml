@@ -4,6 +4,12 @@ steps:
     entrypoint: npm
     args: ['install']
   - name: 'node'
+    env:
+      - 'APP_ENV=${BRANCH_NAME}'
+      - 'PROJECT_ID=${PROJECT_ID}'
+      - 'ENVIRONMENT=${_APP_ENV}'
+      - 'VERSION=${_VERSION}'
+      - 'POPUP_URL=${_POPUP_URL}'
     entrypoint: npm
     args: ['run', 'build']
   - name: 'gcr.io/cloud-builders/gsutil'
