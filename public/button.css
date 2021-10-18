@@ -2,15 +2,16 @@ div#cp-login, div#cp-login-response {
     display: none;
     width: 250px;
     height: auto;
-    padding: 10px 5px;
+    padding: 20px 15px;
     margin: 0;
-    background-color: cyan;
+    background-color: #111;
     font-family: "Helvetica", "Arial", sans-serif;
-    color: darkblue;
+    color: white;
     font-size: 16px;
     text-align: center;
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 15px;
+    letter-spacing: 2px;
+    font-weight: 400;
     text-decoration:none;
     cursor: default;
 }
@@ -23,12 +24,17 @@ div#cp-login-response {
     color: black;
 }
 div#cp-login:hover {
-    background-color: #006ad4;
+    background-color: #464646;
     color: white;
 }
 div#cp-login.disabled {
     display: none;
     cursor: none;
+}
+div#cp-login.pending {
+    display: inline-block;
+    background-color: grey;
+    color: white;
 }
 div#cp-login-response.verified {
     display: inline-block;

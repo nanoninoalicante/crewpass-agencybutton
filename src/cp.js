@@ -2,21 +2,36 @@
 const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
 const COMMIT_ID = process.env.COMMIT_ID;
 const VERSION = process.env.VERSION;
-const POPUP_URL =
-  process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/login";
+const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk";
 // const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000/login";
+
+const buttonContent = (lang = "en") => {
+  const content = {
+    en: {
+      buttonText: "Approve with CrewPass",
+      pleaseWait: "Please wait...",
+      statuses: {
+        "pending": {
+          buttonText: "Pending",
+          styleClass: "pending"
+        }
+      }
+    },
+  };
+  return content[lang];
+};
 
 (function (window, document) {
   class CrewPass {
     constructor(vendor, buttonDivId = "cp-login") {
       this.vendor = vendor;
       this.button = "";
-      this.buttonText = "Continue with Crew Pass";
       this.status = "not-checked";
       this.subscriptionStatus = "";
       this.user = "";
       this.formInputAttached = false;
       this.buttonDivId = buttonDivId;
+      this.content = buttonContent("en");
     }
     getCurrentOrigin() {
       return window.location.origin;
@@ -31,7 +46,7 @@ const POPUP_URL =
       if (!this.button) {
         return callback("button not found");
       }
-      this.button.innerHTML = this.buttonText;
+      this.button.innerHTML = this.content.buttonText;
       this.button.addEventListener("click", function () {
         console.log("clicked");
         self.loading(true);
@@ -46,13 +61,14 @@ const POPUP_URL =
       this.setup(function (error, res) {
         if (error) {
           console.log("error: ", error);
+          return callback(error);
         }
-        return callback(error, res);
+        return callback(null, res);
       });
     }
     loading(isLoading) {
       if (isLoading) {
-        this.button.innerHTML = `Please wait...`;
+        this.button.innerHTML = this.content.pleaseWait;
       }
     }
 
@@ -67,7 +83,6 @@ const POPUP_URL =
       window.addEventListener(
         "message",
         function (event) {
-          console.log("message: ", event);
           if (event.origin !== self.getCurrentOrigin()) {
             console.log("event data: ", JSON.parse(event.data));
             self.popupCallback(JSON.parse(event.data));
@@ -82,16 +97,14 @@ const POPUP_URL =
       console.log("callback: ", res);
       const button = document.querySelector("div#cp-login");
       if (!res.status || res.status === "closed") {
-        button.innerHTML = this.buttonText;
+        button.innerHTML = this.content.buttonText;
         return null;
       }
       this.status = res.status;
       this.user = res.user;
       this.subscriptionStatus = res.subscriptionStatus;
-      button.classList.add("disabled");
-      const response = document.querySelector("div#cp-login-response");
-      response.classList.add(this.status);
-      response.innerHTML = res.message;
+      button.classList.add(this.content.statuses[res.status || "pending"].styleClass);
+      button.innerHTML = this.content.statuses[res.status || "pending"].buttonText;
       if (!this.formInputAttached) {
         this.attachResponseToForm();
       }
