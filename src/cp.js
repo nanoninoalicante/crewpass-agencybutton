@@ -2,12 +2,13 @@
 const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
 const COMMIT_ID = process.env.COMMIT_ID;
 const VERSION = process.env.VERSION;
-const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/login";
+const POPUP_URL =
+  process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/login";
 // const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000/login";
 
 (function (window, document) {
   class CrewPass {
-    constructor(vendor) {
+    constructor(vendor, buttonDivId = "cp-login") {
       this.vendor = vendor;
       this.button = "";
       this.buttonText = "Continue with Crew Pass";
@@ -15,6 +16,7 @@ const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/lo
       this.subscriptionStatus = "";
       this.user = "";
       this.formInputAttached = false;
+      this.buttonDivId = buttonDivId;
     }
     getCurrentOrigin() {
       return window.location.origin;
@@ -25,7 +27,7 @@ const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/lo
     setup(callback) {
       console.log("setup: ", this.vendor);
       let self = this;
-      this.button = document.querySelector("div#cp-login");
+      this.button = document.querySelector("div#" + this.buttonDivId);
       if (!this.button) {
         return callback("button not found");
       }
@@ -90,13 +92,13 @@ const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/lo
       const response = document.querySelector("div#cp-login-response");
       response.classList.add(this.status);
       response.innerHTML = res.message;
-      if(!this.formInputAttached) {
+      if (!this.formInputAttached) {
         this.attachResponseToForm();
       }
       // ATTACH RESPONSE TO FORM
     }
 
-    attachResponseToForm(){
+    attachResponseToForm() {
       const form = document.querySelector("form");
       console.log("form: ", form);
       const input = document.createElement("input");
@@ -106,7 +108,6 @@ const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk/lo
       form.appendChild(input);
       this.formInputAttached = true;
     }
-
   }
   window.CrewPass = CrewPass;
 })(window, document);
