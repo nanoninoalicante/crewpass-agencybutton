@@ -92,7 +92,7 @@ const buttonContent = (lang = "en") => {
       const cpLoginPopup = window.open(
         this.getLoginPopupUrl(),
         "cpLoginPopup",
-        "status=1, height=500, width=500, toolbar=0,resizable=0"
+        "status=1, height=730, width=500, toolbar=0,resizable=0"
       );
       cpLoginPopup.window.focus();
       window.addEventListener(
