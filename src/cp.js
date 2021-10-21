@@ -14,6 +14,18 @@ const buttonContent = (lang = "en") => {
         "pending": {
           buttonText: "Pending",
           styleClass: "pending"
+        },
+        "approved": {
+          buttonText: "Approved",
+          styleClass: "approved"
+        },
+        "declined": {
+          buttonText: "Declined",
+          styleClass: "declined"
+        },
+        "unchecked": {
+          buttonText: "Unchecked",
+          styleClass: "unchecked"
         }
       }
     },
@@ -46,7 +58,7 @@ const buttonContent = (lang = "en") => {
       if (!this.button) {
         return callback("button not found");
       }
-      this.button.innerHTML = this.content.buttonText;
+      this.button.classList.add("cp-button-image");
       this.button.addEventListener("click", function () {
         console.log("clicked");
         self.loading(true);
@@ -68,7 +80,10 @@ const buttonContent = (lang = "en") => {
     }
     loading(isLoading) {
       if (isLoading) {
-        this.button.innerHTML = this.content.pleaseWait;
+        this.button.classList.remove("pending", "verified", "declined", "unchecked")
+        this.button.classList.add("loading");
+      } else {
+        this.button.classList.remove("loading");
       }
     }
 
@@ -97,14 +112,13 @@ const buttonContent = (lang = "en") => {
       console.log("callback: ", res);
       const button = document.querySelector("div#cp-login");
       if (!res.status || res.status === "closed") {
-        button.innerHTML = this.content.buttonText;
+        this.loading(false);
         return null;
       }
       this.status = res.status;
       this.user = res.user;
       this.subscriptionStatus = res.subscriptionStatus;
       button.classList.add(this.content.statuses[res.status || "pending"].styleClass);
-      button.innerHTML = this.content.statuses[res.status || "pending"].buttonText;
       if (!this.formInputAttached) {
         this.attachResponseToForm();
       }
