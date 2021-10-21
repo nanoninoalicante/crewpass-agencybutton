@@ -21,29 +21,29 @@ div#cp-login-wrapper div#cp-login {
   background-size: 100% auto;
   filter: opacity(1);
 }
-div#cp-login:hover {
+div#cp-login-wrapper div#cp-login:hover {
   filter: opacity(0.7);
 }
-div#cp-login.loading {
+div#cp-login-wrapper div#cp-login.loading {
   filter: opacity(1);
   background-position: 0 -46px;
 }
-div#cp-login.pending {
+div#cp-login-wrapper div#cp-login.pending {
   filter: opacity(1);
   background-position: 0 90px;
 }
-div#cp-login.approved {
+div#cp-login-wrapper div#cp-login.approved {
   filter: opacity(1);
   background-position: 0 -91px;
 }
-div#cp-login.declined {
+div#cp-login-wrapper div#cp-login.declined {
   filter: opacity(1);
   background-position: 0 -137px;
 }
-div#cp-login.unchecked {
+div#cp-login-wrapper div#cp-login.unchecked {
   filter: opacity(1);
   background-position: 0 45px;
 }
-div#cp-login.disabled {
+div#cp-login-wrapper div#cp-login.disabled {
   cursor: none;
 }
