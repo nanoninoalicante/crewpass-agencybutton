@@ -192,7 +192,7 @@ const buttonContent = (lang = "en") => {
     attachFullResponseToForm() {
       this.attachResponseToForm("crewpass-crew-status", this.status);
       this.attachResponseToForm("crewpass-crew-email", this.user.email);
-      this.attachResponseToForm("crewpass-crew-userid", this.user.userid);
+      this.attachResponseToForm("crewpass-crew-userid", this.user.userId);
       this.attachResponseToForm("crewpass-crew-name", this.user.name);
     }
 
