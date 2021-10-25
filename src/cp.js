@@ -2,32 +2,42 @@
 const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
 const COMMIT_ID = process.env.COMMIT_ID;
 const VERSION = process.env.VERSION;
-const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk";
-// const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000/login";
-
+// const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk";
+const BASE_CDN_URL =
+  process.env.BASE_CDN_URL ||
+  "https://storage.googleapis.com/crewpass-development-loginbutton";
+const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000";
 const buttonContent = (lang = "en") => {
   const content = {
     en: {
       buttonText: "Approve with CrewPass",
       pleaseWait: "Please wait...",
       statuses: {
-        "pending": {
+        "not-checked": {
+          buttonText: "Approve With CrewPass",
+          backgroundImage: `${BASE_CDN_URL}/Start.png`,
+        },
+        loading: {
+          buttonText: "Loading",
+          backgroundImage: `${BASE_CDN_URL}/Loading.png`,
+        },
+        pending: {
           buttonText: "Pending",
-          styleClass: "pending"
+          backgroundImage: `${BASE_CDN_URL}/Pending.png`,
         },
-        "approved": {
+        approved: {
           buttonText: "Approved",
-          styleClass: "approved"
+          backgroundImage: `${BASE_CDN_URL}/Approved.png`,
         },
-        "declined": {
+        declined: {
           buttonText: "Declined",
-          styleClass: "declined"
+          backgroundImage: `${BASE_CDN_URL}/Declined.png`,
         },
-        "unchecked": {
+        unchecked: {
           buttonText: "Unchecked",
-          styleClass: "unchecked"
-        }
-      }
+          backgroundImage: `${BASE_CDN_URL}/Unchecked.png`,
+        },
+      },
     },
   };
   return content[lang];
@@ -41,6 +51,7 @@ const buttonContent = (lang = "en") => {
       this.status = "not-checked";
       this.subscriptionStatus = "";
       this.user = "";
+      this.lastestReturnedStatus = "";
       this.formInputAttached = false;
       this.buttonDivId = buttonDivId;
       this.content = buttonContent("en");
@@ -48,6 +59,18 @@ const buttonContent = (lang = "en") => {
     getCurrentOrigin() {
       return window.location.origin;
     }
+    preloadImage(url) {
+      const img = new Image();
+      img.src = url;
+      return img;
+    }
+
+    loadButtonImages() {
+      for (const status in this.content.statuses) {
+        this.preloadImage(this.content.statuses[status].backgroundImage);
+      }
+    }
+
     getLoginPopupUrl() {
       return `${POPUP_URL}?origin=${this.getCurrentOrigin()}`;
     }
@@ -58,17 +81,31 @@ const buttonContent = (lang = "en") => {
       if (!this.button) {
         return callback("button not found");
       }
-      this.button.classList.add("cp-button-image");
-      this.button.addEventListener("click", function () {
-        console.log("clicked");
-        self.loading(true);
-        self.openPopup();
+      this.loadButtonImages();
+      this.checkSavedStatus(function (notSaved, statusData) {
+        if (statusData) {
+          self.setStatus(statusData);
+        } else {
+          self.setBackgroundImage("not-checked");
+        }
+        self.button.addEventListener("click", function () {
+          console.log("clicked");
+          self.loading(true);
+          self.openPopup();
+        });
+        callback(null, "setup complete");
       });
-      return callback(null, "setup complete");
+    }
+
+    setBackgroundImage(status) {
+      console.log("button: ", this.content.statuses[status].backgroundImage);
+      this.button.setAttribute(
+        "style",
+        `background-image: url(${this.content.statuses[status].backgroundImage});`
+      );
     }
 
     t(callback) {
-      let self = this;
       console.log("initiate");
       this.setup(function (error, res) {
         if (error) {
@@ -80,10 +117,9 @@ const buttonContent = (lang = "en") => {
     }
     loading(isLoading) {
       if (isLoading) {
-        this.button.classList.remove("pending", "verified", "declined", "unchecked")
-        this.button.classList.add("loading");
+        this.setBackgroundImage("loading");
       } else {
-        this.button.classList.remove("loading");
+        this.setBackgroundImage(this.status);
       }
     }
 
@@ -99,7 +135,8 @@ const buttonContent = (lang = "en") => {
         "message",
         function (event) {
           if (event.origin !== self.getCurrentOrigin()) {
-            console.log("event data: ", JSON.parse(event.data));
+            const eventData = JSON.parse(event.data);
+            console.log("event data: ", eventData);
             self.popupCallback(JSON.parse(event.data));
           }
         },
@@ -110,28 +147,62 @@ const buttonContent = (lang = "en") => {
 
     popupCallback(res) {
       console.log("callback: ", res);
-      const button = document.querySelector("div#cp-login");
+      this.button = document.querySelector("div#cp-login");
       if (!res.status || res.status === "closed") {
         this.loading(false);
         return null;
       }
-      this.status = res.status;
-      this.user = res.user;
-      this.subscriptionStatus = res.subscriptionStatus;
-      button.classList.add(this.content.statuses[res.status || "pending"].styleClass);
-      if (!this.formInputAttached) {
-        this.attachResponseToForm();
-      }
+      this.setStatus(res);
       // ATTACH RESPONSE TO FORM
     }
 
-    attachResponseToForm() {
+    setStatus(statusData) {
+      this.status = statusData.status;
+      this.user = statusData.user;
+      this.subscriptionStatus = statusData.subscriptionStatus;
+      this.setBackgroundImage(statusData.status);
+      window.sessionStorage.setItem(
+        "cp-crewstatus-response",
+        JSON.stringify(statusData)
+      );
+      this.attachFullResponseToForm();
+    }
+
+    checkSavedStatus(callback) {
+      try {
+        let statusData = window.sessionStorage.getItem(
+          "cp-crewstatus-response"
+        );
+        console.log("saved status: ", statusData);
+        if (!statusData) {
+          callback("no saved data");
+          return;
+        }
+        statusData = JSON.parse(statusData);
+        if (!statusData.status) {
+          callback("no saved status");
+          return null;
+        }
+        callback(null, statusData);
+      } catch (e) {
+        callback(e);
+      }
+    }
+
+    attachFullResponseToForm() {
+      this.attachResponseToForm("crewpass-crew-status", this.status);
+      this.attachResponseToForm("crewpass-crew-email", this.user.email);
+      this.attachResponseToForm("crewpass-crew-userid", this.user.userid);
+      this.attachResponseToForm("crewpass-crew-name", this.user.name);
+    }
+
+    attachResponseToForm(name, value) {
       const form = document.querySelector("form");
       console.log("form: ", form);
       const input = document.createElement("input");
       input.setAttribute("type", "hidden");
-      input.setAttribute("name", "crewpass-crew-status");
-      input.setAttribute("value", this.status);
+      input.setAttribute("name", name);
+      input.setAttribute("value", value);
       form.appendChild(input);
       this.formInputAttached = true;
     }
