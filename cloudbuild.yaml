@@ -1,9 +1,9 @@
 steps:
   # build the container image  # build the container image
-  - name: 'node'
+  - name: 'node:${_NODE_VERSION}'
     entrypoint: npm
     args: ['install']
-  - name: 'node'
+  - name: 'node:${_NODE_VERSION}'
     env:
       - 'APP_ENV=${BRANCH_NAME}'
       - 'PROJECT_ID=${PROJECT_ID}'
