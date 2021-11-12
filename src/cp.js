@@ -153,7 +153,6 @@ const buttonContent = (lang = "en") => {
         return null;
       }
       this.setStatus(res);
-      // ATTACH RESPONSE TO FORM
     }
 
     setStatus(statusData) {
@@ -192,7 +191,7 @@ const buttonContent = (lang = "en") => {
     attachFullResponseToForm() {
       this.attachResponseToForm("crewpass-crew-status", this.status);
       this.attachResponseToForm("crewpass-crew-email", this.user.email);
-      this.attachResponseToForm("crewpass-crew-userid", this.user.userId);
+      this.attachResponseToForm("crewpass-crew-crewUniqueId", this.user.crewUniqueId);
       this.attachResponseToForm("crewpass-crew-name", this.user.name);
     }
 
