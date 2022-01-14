@@ -201,7 +201,13 @@ const buttonContent = (lang = "en") => {
     attachResponseToForm(name, value) {
       const form = document.querySelector("form");
       console.log("form: ", form);
-      const input = document.createElement("input");
+      let input = document.querySelector("input#" + name);
+      if (input) {
+        console.log("input exists: ", input);
+      } else {
+        input = document.createElement("input");
+      }
+      input.setAttribute("id", name);
       input.setAttribute("type", "hidden");
       input.setAttribute("name", name);
       input.setAttribute("value", value);
