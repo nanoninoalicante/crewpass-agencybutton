@@ -45,7 +45,7 @@ const buttonContent = (lang = "en") => {
 
 (function (window, document) {
   class CrewPass {
-    constructor(vendor, buttonDivId = "cp-login") {
+    constructor({ v: vendor, divId: buttonDivId = "cp-login" }) {
       this.vendor = vendor;
       this.button = "";
       this.status = "not-checked";
@@ -191,7 +191,10 @@ const buttonContent = (lang = "en") => {
     attachFullResponseToForm() {
       this.attachResponseToForm("crewpass-crew-status", this.status);
       this.attachResponseToForm("crewpass-crew-email", this.user.email);
-      this.attachResponseToForm("crewpass-crew-crewUniqueId", this.user.crewUniqueId);
+      this.attachResponseToForm(
+        "crewpass-crew-crewUniqueId",
+        this.user.crewUniqueId
+      );
       this.attachResponseToForm("crewpass-crew-name", this.user.name);
     }
 
