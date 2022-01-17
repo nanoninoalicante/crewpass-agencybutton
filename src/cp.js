@@ -1,4 +1,5 @@
 "use strict";
+const { agencyInputFormData } = require("./agencies");
 const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
 const COMMIT_ID = process.env.COMMIT_ID;
 const VERSION = process.env.VERSION;
@@ -46,7 +47,7 @@ const buttonContent = (lang = "en") => {
 (function (window, document) {
   class CrewPass {
     constructor({ v: vendor, divId: buttonDivId = "cp-login" }) {
-      this.vendor = vendor;
+      this.agency = vendor;
       this.button = "";
       this.status = "not-checked";
       this.subscriptionStatus = "";
@@ -75,7 +76,7 @@ const buttonContent = (lang = "en") => {
       return `${POPUP_URL}?origin=${this.getCurrentOrigin()}`;
     }
     setup(callback) {
-      console.log("setup: ", this.vendor);
+      console.log("setup: ", this.agency);
       let self = this;
       this.button = document.querySelector("div#" + this.buttonDivId);
       if (!this.button) {
@@ -189,13 +190,16 @@ const buttonContent = (lang = "en") => {
     }
 
     attachFullResponseToForm() {
-      this.attachResponseToForm("crewpass-crew-status", this.status);
-      this.attachResponseToForm("crewpass-crew-email", this.user.email);
-      this.attachResponseToForm(
-        "crewpass-crew-crewUniqueId",
-        this.user.crewUniqueId
-      );
-      this.attachResponseToForm("crewpass-crew-name", this.user.name);
+      const standardResponse = {
+        "crewpass-crew-status": this.status,
+        "crewpass-crew-email": this.user.email,
+        "crewpass-crew-crewUniqueId": this.user.crewUniqueId,
+        "crewpass-crew-name": this.user.name,
+      };
+      const agencyResponseFormData = agencyInputFormData(standardResponse, this.agency);
+      for(const key in agencyResponseFormData) {
+        this.attachResponseToForm(key, agencyResponseFormData[key]);
+      }
     }
 
     attachResponseToForm(name, value) {
