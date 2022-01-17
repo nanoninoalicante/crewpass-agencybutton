@@ -37,6 +37,10 @@ const agencyKeys = {
     [mappingKeys.id]: "input_1_22",
     [mappingKeys.status]: "input_1_23",
   },
+  "wilsonhalligan": {
+    [mappingKeys.id]: "input_1_22",
+    [mappingKeys.status]: "input_1_23",
+  },
 };
 
 const agencyInputFormData = (data, agency) => {
