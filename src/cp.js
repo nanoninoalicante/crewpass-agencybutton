@@ -7,7 +7,7 @@ const VERSION = process.env.VERSION;
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";
-const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000";
+const POPUP_URL = process.env.POPUP_URL || "https://verify.crewpass.co.uk";
 const buttonContent = (lang = "en") => {
   const content = {
     en: {

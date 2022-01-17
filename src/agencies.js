@@ -34,8 +34,6 @@ const agencyKeys = {
     [mappingKeys.status]: mappingKeys.status,
   },
   "william-halligan": {
-    [mappingKeys.email]: "email",
-    [mappingKeys.name]: "name",
     [mappingKeys.id]: "id",
     [mappingKeys.status]: "status",
   },
