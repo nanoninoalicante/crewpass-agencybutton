@@ -196,22 +196,28 @@ const buttonContent = (lang = "en") => {
         "crewpass-crew-crewUniqueId": this.user.crewUniqueId,
         "crewpass-crew-name": this.user.name,
       };
-      const agencyResponseFormData = agencyInputFormData(standardResponse, this.agency);
-      for(const key in agencyResponseFormData) {
+      const agencyResponseFormData = agencyInputFormData(
+        standardResponse,
+        this.agency
+      );
+      console.log("agency form response: ", agencyResponseFormData);
+      for (const key in agencyResponseFormData) {
         this.attachResponseToForm(key, agencyResponseFormData[key]);
       }
     }
 
-    attachResponseToForm(name, value) {
+    attachResponseToForm(inputIdAndName, value) {
       const form = document.querySelector("form");
+      const name = inputIdAndName.split(":")[0];
+      const id = inputIdAndName.split(":")[1];
       console.log("form: ", form);
-      let input = document.querySelector("input#" + name);
+      let input = document.querySelector("input#" + id);
       if (input) {
         console.log("input exists: ", input);
       } else {
         input = document.createElement("input");
       }
-      input.setAttribute("id", name);
+      input.setAttribute("id", id);
       input.setAttribute("type", "hidden");
       input.setAttribute("name", name);
       input.setAttribute("value", value);

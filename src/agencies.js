@@ -19,27 +19,28 @@ const remapData = (keys = {}, data = {}) => {
   return mappedData(keys, modifiedData);
 };
 
+// form name and ID - {name}:{id}
 const mappingKeys = {
   email: "crewpass-crew-email",
   name: "crewpass-crew-name",
   id: "crewpass-crew-crewUniqueId",
-  status: "crewpass-crew-status"
-}
+  status: "crewpass-crew-status",
+};
 
 const agencyKeys = {
-  "default": {
-    [mappingKeys.email]: mappingKeys.email,
-    [mappingKeys.name]: mappingKeys.name,
-    [mappingKeys.id]: mappingKeys.id,
-    [mappingKeys.status]: mappingKeys.status,
+  default: {
+    [mappingKeys.email]: `${mappingKeys.email}:${mappingKeys.email}`,
+    [mappingKeys.name]: `${mappingKeys.name}:${mappingKeys.name}`,
+    [mappingKeys.id]: `${mappingKeys.id}:${mappingKeys.id}`,
+    [mappingKeys.status]: `${mappingKeys.status}:${mappingKeys.status}`,
   },
   "william-halligan": {
-    [mappingKeys.id]: "input_1_22",
-    [mappingKeys.status]: "input_1_23",
+    [mappingKeys.id]: "input_22:input_1_22",
+    [mappingKeys.status]: "input_23:input_1_23",
   },
-  "wilsonhalligan": {
-    [mappingKeys.id]: "input_1_22",
-    [mappingKeys.status]: "input_1_23",
+  wilsonhalligan: {
+    [mappingKeys.id]: "input_22:input_1_22",
+    [mappingKeys.status]: "input_23:input_1_23",
   },
 };
 
