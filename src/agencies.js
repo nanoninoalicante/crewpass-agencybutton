@@ -42,6 +42,12 @@ const agencyKeys = {
     [mappingKeys.id]: "input_22:input_1_22",
     [mappingKeys.status]: "input_23:input_1_23",
   },
+  bespoke: {
+    [mappingKeys.id]: "hdn_18107:hdn_18107",
+    [mappingKeys.status]: "hdn_18111:hdn_18111",
+    [mappingKeys.email]: "hdn_18106:hdn_18108",
+    [mappingKeys.name]: "hdn_18108:hdn_18106",
+  },
 };
 
 const agencyInputFormData = (data, agency) => {
