@@ -73,7 +73,15 @@ const buttonContent = (lang = "en") => {
     }
 
     getLoginPopupUrl() {
-      return `${POPUP_URL}?origin=${this.getCurrentOrigin()}`;
+      const params = {
+        origin: this.getCurrentOrigin(),
+        utm_id: "verify-with-crewpass",
+        utm_source: "integration-popup",
+        utm_medium: "popup",
+        utm_campaign: this.agency || "agency-not-set",
+      };
+      const searchParams = new URLSearchParams(params);
+      return `${POPUP_URL}?${searchParams.toString()}`;
     }
     setup(callback) {
       console.log("setup: ", this.agency);
