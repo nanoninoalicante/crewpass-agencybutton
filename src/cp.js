@@ -30,6 +30,10 @@ const buttonContent = (lang = "en") => {
           buttonText: "Approved",
           backgroundImage: `${BASE_CDN_URL}/Approved.png`,
         },
+        verified: {
+          buttonText: "Approved",
+          backgroundImage: `${BASE_CDN_URL}/Approved.png`,
+        },
         declined: {
           buttonText: "Declined",
           backgroundImage: `${BASE_CDN_URL}/Declined.png`,
@@ -145,8 +149,7 @@ const buttonContent = (lang = "en") => {
         function (event) {
           if (event.origin !== self.getCurrentOrigin()) {
             const eventData = JSON.parse(event.data);
-            console.log("event data: ", eventData);
-            self.popupCallback(JSON.parse(event.data));
+            self.popupCallback(eventData);
           }
         },
         false
