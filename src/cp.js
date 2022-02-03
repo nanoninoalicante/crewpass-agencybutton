@@ -116,26 +116,13 @@ const buttonContent = (lang = "en") => {
 
     t(callback) {
       console.log("initiate");
-      const self = this;
-      function initiateSetup() {
-        self.setup(function (error, res) {
-          if (error) {
-            console.log("error: ", error);
-            return callback(error);
-          }
-          return callback(null, res);
-        });
-      }
-      if (document.readyState === "loading") {
-        console.log("dom loading");
-        document.addEventListener("DOMContentLoaded", function () {
-          console.log("dom loaded");
-          initiateSetup();
-        });
-      } else {
-        console.log("dom already loaded");
-        initiateSetup();
-      }
+      this.setup(function (error, res) {
+        if (error) {
+          console.log("error: ", error);
+          return callback(error);
+        }
+        return callback(null, res);
+      });
     }
     loading(isLoading) {
       if (isLoading) {
