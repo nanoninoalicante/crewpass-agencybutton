@@ -1,8 +1,14 @@
+div#cp-login-wrapper {
+  display: flex;
+  justify-content: center;
+  flex: 1 1 auto;
+}
 div#cp-login-wrapper div#cp-login {
   display: inline-block;
   cursor: pointer;
-  width: 368px;
-  height: 45px;
+  width: 100%;
+  max-width: 380px;
+  height: 60px;
   padding: 0;
   margin: 0;
   background-color: transparent !important;
@@ -15,7 +21,7 @@ div#cp-login-wrapper div#cp-login {
   font-weight: 400;
   text-decoration: none;
   background-position: center center;
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
   filter: opacity(1);
 }

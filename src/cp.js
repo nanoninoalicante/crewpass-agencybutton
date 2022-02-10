@@ -7,7 +7,7 @@ const VERSION = process.env.VERSION;
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";
-const POPUP_URL = process.env.POPUP_URL || "https://verify.crewpass.co.uk";
+const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000";
 const buttonContent = (lang = "en") => {
   const content = {
     en: {
@@ -56,8 +56,6 @@ const buttonContent = (lang = "en") => {
       this.status = "not-checked";
       this.subscriptionStatus = "";
       this.user = "";
-      this.lastestReturnedStatus = "";
-      this.formInputAttached = false;
       this.buttonDivId = buttonDivId;
       this.content = buttonContent("en");
     }
@@ -219,6 +217,9 @@ const buttonContent = (lang = "en") => {
 
     attachResponseToForm(inputIdAndName, value) {
       const form = document.querySelector("form");
+      if (!form) {
+        return { message: "cannot find form" };
+      }
       const name = inputIdAndName.split(":")[0];
       const id = inputIdAndName.split(":")[1];
       console.log("form: ", form);
@@ -233,7 +234,6 @@ const buttonContent = (lang = "en") => {
       input.setAttribute("name", name);
       input.setAttribute("value", value);
       form.appendChild(input);
-      this.formInputAttached = true;
     }
   }
   window.CrewPass = CrewPass;
