@@ -2,6 +2,7 @@ require("dotenv").config();
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
+const ENVIRONMENT = process.env.ENVIRONMENT;
 
 module.exports = (env) => {
   return {
@@ -17,7 +18,7 @@ module.exports = (env) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: true,
+              drop_console: ENVIRONMENT !== "dev",
             },
           },
         }),

@@ -112,8 +112,7 @@ const buttonContent = (lang = "en") => {
       );
     }
 
-    t(callback) {
-      console.log("initiate");
+    t(callback = (e, r) => e||r) {
       this.setup(function (error, res) {
         if (error) {
           console.log("error: ", error);
