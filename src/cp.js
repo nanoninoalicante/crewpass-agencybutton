@@ -1,9 +1,5 @@
 "use strict";
 const { agencyInputFormData } = require("./agencies");
-const CLIENT_DATA_URL = process.env.CLIENT_DATA_URL;
-const COMMIT_ID = process.env.COMMIT_ID;
-const VERSION = process.env.VERSION;
-// const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk";
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";

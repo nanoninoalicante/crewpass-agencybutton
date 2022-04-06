@@ -32,6 +32,7 @@ module.exports = (env) => {
         "process.env.VERSION": JSON.stringify(process.env.VERSION || ""),
         "process.env.COMMIT_ID": JSON.stringify(process.env.COMMIT_ID || ""),
         "process.env.POPUP_URL": JSON.stringify(process.env.POPUP_URL || ""),
+        "process.env.BASE_CDN_URL": JSON.stringify(process.env.BASE_CDN_URL || ""),
       }),
     ],
   };
