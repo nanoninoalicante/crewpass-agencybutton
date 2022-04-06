@@ -112,11 +112,17 @@ const buttonContent = (lang = "en") => {
       );
     }
 
-    t(callback = (e, r) => e||r) {
+    t(callback) {
       this.setup(function (error, res) {
         if (error) {
           console.log("error: ", error);
+          if (!callback) {
+            return error;
+          }
           return callback(error);
+        }
+        if (!callback) {
+          return res;
         }
         return callback(null, res);
       });
