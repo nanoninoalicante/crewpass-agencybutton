@@ -35,3 +35,6 @@ div#cp-login-wrapper.cp-btn-6345792 {
   justify-content: start;
   text-align: left;
 }
+div#cp-login-wrapper.cp-btn-6345792 div#cp-login {
+  height: 24px;
+}
