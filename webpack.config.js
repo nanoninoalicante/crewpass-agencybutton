@@ -18,7 +18,7 @@ module.exports = (env) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: ENVIRONMENT !== "dev",
+              drop_console: ENVIRONMENT !== "local",
             },
           },
         }),
