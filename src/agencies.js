@@ -50,8 +50,15 @@ const agencyKeys = {
   },
 };
 
+const agenciesConfig = {
+  "6345792": {
+    storeSession: false
+  }
+}
+
 const agencyInputFormData = (data, agency) => {
   return remapData(agencyKeys[agency] || agencyKeys["default"], data);
 };
 
 module.exports.agencyInputFormData = agencyInputFormData;
+module.exports.agenciesConfig = agenciesConfig;

@@ -1,9 +1,9 @@
 "use strict";
-const { agencyInputFormData } = require("./agencies");
+const { agencyInputFormData, agenciesConfig } = require("./agencies");
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";
-const POPUP_URL = process.env.POPUP_URL || "http://127.0.0.1:3000";
+const POPUP_URL = process.env.POPUP_URL || "https://verify.crewpass.co.uk";
 const buttonContent = (lang = "en") => {
   const content = {
     en: {
@@ -46,13 +46,19 @@ const buttonContent = (lang = "en") => {
 
 (function (window, document) {
   class CrewPass {
-    constructor({ v: vendor, divId: buttonDivId = "cp-login" }) {
+    constructor({
+      v: vendor,
+      divId: buttonDivId = "cp-login",
+      holderId: divHolderId = "cp-login-wrapper",
+    }) {
       this.agency = vendor;
       this.button = "";
+      this.buttonHolder = "";
       this.status = "not-checked";
       this.subscriptionStatus = "";
       this.user = "";
       this.buttonDivId = buttonDivId;
+      this.buttonDivHolderId = divHolderId;
       this.content = buttonContent("en");
     }
     getCurrentOrigin() {
@@ -84,10 +90,12 @@ const buttonContent = (lang = "en") => {
     setup(callback) {
       console.log("setup: ", this.agency);
       let self = this;
+      this.buttonHolder = document.querySelector("div#" + this.buttonDivHolderId);
       this.button = document.querySelector("div#" + this.buttonDivId);
-      if (!this.button) {
+      if (!this.button || !this.buttonHolder) {
         return callback("button not found");
       }
+      this.buttonHolder.classList.add(`cp-btn-${this.agency || "default"}`);
       this.loadButtonImages();
       this.checkSavedStatus(function (notSaved, statusData) {
         if (statusData) {
@@ -115,16 +123,9 @@ const buttonContent = (lang = "en") => {
     t(callback) {
       this.setup(function (error, res) {
         if (error) {
-          console.log("error: ", error);
-          if (!callback) {
-            return error;
-          }
-          return callback(error);
+          return !callback ? error : callback(error);
         }
-        if (!callback) {
-          return res;
-        }
-        return callback(null, res);
+        return !callback ? res : callback(res);
       });
     }
     loading(isLoading) {
@@ -167,15 +168,23 @@ const buttonContent = (lang = "en") => {
       this.setStatus(res);
     }
 
+    needsToStoreSession() {
+      if (!this.agency) return true;
+      if (!agenciesConfig[this.agency]) return true;
+      return agenciesConfig[this.agency].storeSession;
+    }
+
     setStatus(statusData) {
       this.status = statusData.status;
       this.user = statusData.user;
       this.subscriptionStatus = statusData.subscriptionStatus;
       this.setBackgroundImage(statusData.status);
-      window.sessionStorage.setItem(
-        "cp-crewstatus-response",
-        JSON.stringify(statusData)
-      );
+      if (this.needsToStoreSession()) {
+        window.sessionStorage.setItem(
+          "cp-crewstatus-response",
+          JSON.stringify(statusData)
+        );
+      }
       this.attachFullResponseToForm();
     }
 

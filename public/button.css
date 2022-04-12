@@ -28,3 +28,10 @@ div#cp-login-wrapper div#cp-login {
 div#cp-login-wrapper div#cp-login:hover {
   filter: opacity(0.7);
 }
+div#cp-login-wrapper.cp-btn-6345792 {
+  width: 150px;
+  height: auto;
+  align-items: flex-start;
+  justify-content: start;
+  text-align: left;
+}
