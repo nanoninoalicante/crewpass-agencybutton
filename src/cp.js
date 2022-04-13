@@ -13,6 +13,9 @@ const buttonContent = (lang = "en") => {
         "not-checked": {
           buttonText: "Approve With CrewPass",
           backgroundImage: `${BASE_CDN_URL}/Start.png`,
+          agencyBackgroundImages: {
+            6345792: `${BASE_CDN_URL}/agencies/6345792/Start.png`,
+          },
         },
         loading: {
           buttonText: "Loading",
@@ -21,22 +24,37 @@ const buttonContent = (lang = "en") => {
         pending: {
           buttonText: "Pending",
           backgroundImage: `${BASE_CDN_URL}/Pending.png`,
+          agencyBackgroundImages: {
+            6345792: `${BASE_CDN_URL}/agencies/6345792/Pending.png`,
+          },
         },
         approved: {
           buttonText: "Approved",
           backgroundImage: `${BASE_CDN_URL}/Approved.png`,
+          agencyBackgroundImages: {
+            6345792: `${BASE_CDN_URL}/agencies/6345792/Approved.png`,
+          },
         },
         verified: {
           buttonText: "Approved",
           backgroundImage: `${BASE_CDN_URL}/Approved.png`,
+          agencyBackgroundImages: {
+            6345792: `${BASE_CDN_URL}/agencies/6345792/Approved.png`,
+          },
         },
         declined: {
           buttonText: "Declined",
           backgroundImage: `${BASE_CDN_URL}/Declined.png`,
+          agencyBackgroundImages: {
+            6345792: `${BASE_CDN_URL}/agencies/6345792/Declined.png`,
+          },
         },
         unchecked: {
           buttonText: "Unchecked",
           backgroundImage: `${BASE_CDN_URL}/Unchecked.png`,
+          agencyBackgroundImages: {
+            6345792: `${BASE_CDN_URL}/agencies/6345792/Unchecked.png`,
+          },
         },
       },
     },
@@ -72,6 +90,15 @@ const buttonContent = (lang = "en") => {
 
     loadButtonImages() {
       for (const status in this.content.statuses) {
+        if (
+          this.content.statuses[status].agencyBackgroundImages &&
+          this.content.statuses[status].agencyBackgroundImages[this.agency]
+        ) {
+          this.preloadImage(
+            this.content.statuses[status].agencyBackgroundImages[this.agency]
+          );
+          continue;
+        }
         this.preloadImage(this.content.statuses[status].backgroundImage);
       }
     }
@@ -90,7 +117,9 @@ const buttonContent = (lang = "en") => {
     setup(callback) {
       console.log("setup: ", this.agency);
       let self = this;
-      this.buttonHolder = document.querySelector("div#" + this.buttonDivHolderId);
+      this.buttonHolder = document.querySelector(
+        "div#" + this.buttonDivHolderId
+      );
       this.button = document.querySelector("div#" + this.buttonDivId);
       if (!this.button || !this.buttonHolder) {
         return callback("button not found");
@@ -113,10 +142,19 @@ const buttonContent = (lang = "en") => {
     }
 
     setBackgroundImage(status) {
-      console.log("button: ", this.content.statuses[status].backgroundImage);
+      let backgroundImage = this.content.statuses[status].backgroundImage;
+      if (
+        this.agency &&
+        this.content.statuses[status].agencyBackgroundImages &&
+        this.content.statuses[status].agencyBackgroundImages[this.agency]
+      ) {
+        backgroundImage =
+          this.content.statuses[status].agencyBackgroundImages[this.agency];
+      }
+      console.log("button: ", backgroundImage);
       this.button.setAttribute(
         "style",
-        `background-image: url(${this.content.statuses[status].backgroundImage});`
+        `background-image: url(${backgroundImage});`
       );
     }
 
