@@ -1,16 +1,19 @@
 @font-face {
-  font-family: 'Montserrat';
-  src: url('https://storage.googleapis.com/crewpass-development-loginbutton/Montserrat-Medium.woff') format('woff2'),
-  url('https://storage.googleapis.com/crewpass-development-loginbutton/Montserrat-Medium.woff2') format('woff');
+  font-family: "Montserrat";
+  src: url("https://storage.googleapis.com/crewpass-development-loginbutton/Montserrat-Medium.woff")
+      format("woff2"),
+    url("https://storage.googleapis.com/crewpass-development-loginbutton/Montserrat-Medium.woff2")
+      format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 div#cp-login-wrapper {
-  display: block;
-  width: 300px;
-  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   min-height: 30px;
   margin: 2px;
   padding: 0;
@@ -18,7 +21,8 @@ div#cp-login-wrapper {
 div#cp-login-wrapper div#cp-login {
   display: flex;
   flex-direction: row;
-  width: auto;
+  width: 100%;
+  max-width: 330px;
   height: auto;
   background-color: transparent;
   padding: 6px 8px;
@@ -46,8 +50,15 @@ div#cp-login-wrapper div#cp-login div#cp-button-text-holder {
   text-align: center;
 }
 div#cp-login-wrapper.cp-btn-6345792 {
+  display: block;
+  max-width: 200px;
+  min-height: 30px;
+  margin: 2px;
+  padding: 0;
   width: 200px;
 }
 div#cp-login-wrapper.cp-btn-6345792 div#cp-login {
   font-size: 13px;
+  width: 100%;
+  max-width: 200px;
 }
