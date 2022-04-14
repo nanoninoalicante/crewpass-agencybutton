@@ -12,17 +12,20 @@ const buttonContent = (lang = "en") => {
       statuses: {
         "not-checked": {
           buttonText: "Approve With CrewPass",
+          backgroundColor: "#2B3D4B",
           backgroundImage: `${BASE_CDN_URL}/Start.png`,
           agencyBackgroundImages: {
             6345792: `${BASE_CDN_URL}/agencies/6345792/Start.png`,
           },
         },
         loading: {
-          buttonText: "Loading",
+          buttonText: "Please Wait..",
+          backgroundColor: "#2B3D4B",
           backgroundImage: `${BASE_CDN_URL}/Loading.png`,
         },
         pending: {
           buttonText: "Pending",
+          backgroundColor: "#F39200",
           backgroundImage: `${BASE_CDN_URL}/Pending.png`,
           agencyBackgroundImages: {
             6345792: `${BASE_CDN_URL}/agencies/6345792/Pending.png`,
@@ -30,6 +33,7 @@ const buttonContent = (lang = "en") => {
         },
         approved: {
           buttonText: "Approved",
+          backgroundColor: "#3AAA35",
           backgroundImage: `${BASE_CDN_URL}/Approved.png`,
           agencyBackgroundImages: {
             6345792: `${BASE_CDN_URL}/agencies/6345792/Approved.png`,
@@ -37,6 +41,7 @@ const buttonContent = (lang = "en") => {
         },
         verified: {
           buttonText: "Approved",
+          backgroundColor: "#3AAA35",
           backgroundImage: `${BASE_CDN_URL}/Approved.png`,
           agencyBackgroundImages: {
             6345792: `${BASE_CDN_URL}/agencies/6345792/Approved.png`,
@@ -44,6 +49,7 @@ const buttonContent = (lang = "en") => {
         },
         declined: {
           buttonText: "Declined",
+          backgroundColor: "#E6332A",
           backgroundImage: `${BASE_CDN_URL}/Declined.png`,
           agencyBackgroundImages: {
             6345792: `${BASE_CDN_URL}/agencies/6345792/Declined.png`,
@@ -51,6 +57,7 @@ const buttonContent = (lang = "en") => {
         },
         unchecked: {
           buttonText: "Unchecked",
+          backgroundColor: "#878787",
           backgroundImage: `${BASE_CDN_URL}/Unchecked.png`,
           agencyBackgroundImages: {
             6345792: `${BASE_CDN_URL}/agencies/6345792/Unchecked.png`,
@@ -125,7 +132,20 @@ const buttonContent = (lang = "en") => {
         return callback("button not found");
       }
       this.buttonHolder.classList.add(`cp-btn-${this.agency || "default"}`);
-      this.loadButtonImages();
+      let buttonIcon = document.createElement("img");
+      buttonIcon.id = "cp-button-icon";
+      buttonIcon.src = "https://www.crewpass.co.uk/wp-content/uploads/2021/08/CP_favicon@2x-200x200.png";
+      buttonIcon.width = 23;
+      buttonIcon.height = 23;
+      this.button.appendChild(buttonIcon);
+      let buttonTextHolder = document.createElement("div");
+      buttonTextHolder.id = "cp-button-text-holder";
+      this.button.appendChild(buttonTextHolder);
+      let buttonText = document.createElement("span");
+      buttonText.id = "cp-button-text-span";
+      buttonText.innerHTML = this.content.statuses["not-checked"].buttonText;
+      buttonTextHolder.appendChild(buttonText);
+      // this.loadButtonImages();
       this.checkSavedStatus(function (notSaved, statusData) {
         if (statusData) {
           self.setStatus(statusData);
@@ -142,19 +162,11 @@ const buttonContent = (lang = "en") => {
     }
 
     setBackgroundImage(status) {
-      let backgroundImage = this.content.statuses[status].backgroundImage;
-      if (
-        this.agency &&
-        this.content.statuses[status].agencyBackgroundImages &&
-        this.content.statuses[status].agencyBackgroundImages[this.agency]
-      ) {
-        backgroundImage =
-          this.content.statuses[status].agencyBackgroundImages[this.agency];
-      }
-      console.log("button: ", backgroundImage);
+      let buttonText = document.querySelector("span#cp-button-text-span");
+      buttonText.innerHTML = this.content.statuses[status].buttonText;
       this.button.setAttribute(
-        "style",
-        `background-image: url(${backgroundImage});`
+          "style",
+          `background-color: ${this.content.statuses[status].backgroundColor};`
       );
     }
 

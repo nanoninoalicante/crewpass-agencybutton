@@ -1,40 +1,51 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/Montserrat-Medium.woff2') format('woff2'),
+  url('/Montserrat-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 div#cp-login-wrapper {
-  display: flex;
-  justify-content: center;
-  flex: 1 1 auto;
+  display: block;
+  width: 300px;
+  max-width: 300px;
+  min-height: 30px;
 }
 div#cp-login-wrapper div#cp-login {
-  display: inline-block;
-  cursor: pointer;
-  width: 100%;
-  max-width: 380px;
-  height: 60px;
-  padding: 0;
-  margin: 0;
-  background-color: transparent !important;
-  font-family: "Helvetica", "Arial", sans-serif;
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  padding: 6px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
   color: white;
-  font-size: 16px;
-  text-align: center;
-  border-radius: 0;
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-decoration: none;
-  background-position: center center;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  filter: opacity(1);
+  font-weight: 500;
+  font-family: "Montserrat", "helvetica", sans-serif;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  letter-spacing: -0.5px;
+  min-height: 24px;
 }
 div#cp-login-wrapper div#cp-login:hover {
   filter: opacity(0.7);
 }
+div#cp-login-wrapper div#cp-login img#cp-button-icon {
+  margin: 0 2px 0 0;
+  padding: 0;
+}
+div#cp-login-wrapper div#cp-login div#cp-button-text-holder {
+  width: 100%;
+  text-align: center;
+}
 div#cp-login-wrapper.cp-btn-6345792 {
-  width: 201px;
-  height: auto;
-  align-items: flex-start;
-  justify-content: start;
-  text-align: left;
+  width: 200px;
 }
 div#cp-login-wrapper.cp-btn-6345792 div#cp-login {
-  height: 31px;
+  font-size: 14px;
 }
