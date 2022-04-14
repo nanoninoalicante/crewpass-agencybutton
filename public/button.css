@@ -12,6 +12,8 @@ div#cp-login-wrapper {
   width: 300px;
   max-width: 300px;
   min-height: 30px;
+  margin: 2px;
+  padding: 0;
 }
 div#cp-login-wrapper div#cp-login {
   display: flex;
@@ -19,7 +21,7 @@ div#cp-login-wrapper div#cp-login {
   width: auto;
   height: auto;
   background-color: transparent;
-  padding: 6px;
+  padding: 6px 4px;
   justify-content: space-between;
   align-items: center;
   font-size: 17px;
