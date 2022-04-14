@@ -21,7 +21,7 @@ div#cp-login-wrapper div#cp-login {
   width: auto;
   height: auto;
   background-color: transparent;
-  padding: 6px 4px;
+  padding: 6px 8px;
   justify-content: space-between;
   align-items: center;
   font-size: 17px;
@@ -49,5 +49,5 @@ div#cp-login-wrapper.cp-btn-6345792 {
   width: 200px;
 }
 div#cp-login-wrapper.cp-btn-6345792 div#cp-login {
-  font-size: 14px;
+  font-size: 13px;
 }
