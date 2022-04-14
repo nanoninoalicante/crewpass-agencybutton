@@ -134,7 +134,8 @@ const buttonContent = (lang = "en") => {
       this.buttonHolder.classList.add(`cp-btn-${this.agency || "default"}`);
       let buttonIcon = document.createElement("img");
       buttonIcon.id = "cp-button-icon";
-      buttonIcon.src = "https://www.crewpass.co.uk/wp-content/uploads/2021/08/CP_favicon@2x-200x200.png";
+      buttonIcon.src =
+        "https://storage.googleapis.com/crewpass-production-loginbutton/cp-icon.png";
       buttonIcon.width = 23;
       buttonIcon.height = 23;
       this.button.appendChild(buttonIcon);
@@ -165,8 +166,8 @@ const buttonContent = (lang = "en") => {
       let buttonText = document.querySelector("span#cp-button-text-span");
       buttonText.innerHTML = this.content.statuses[status].buttonText;
       this.button.setAttribute(
-          "style",
-          `background-color: ${this.content.statuses[status].backgroundColor};`
+        "style",
+        `background-color: ${this.content.statuses[status].backgroundColor};`
       );
     }
 
