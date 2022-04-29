@@ -132,21 +132,7 @@ const buttonContent = (lang = "en") => {
         return callback("button not found");
       }
       this.buttonHolder.classList.add(`cp-btn-${this.agency || "default"}`);
-      let buttonIcon = document.createElement("img");
-      buttonIcon.id = "cp-button-icon";
-      buttonIcon.src =
-        "https://storage.googleapis.com/crewpass-production-loginbutton/cp-icon.png";
-      buttonIcon.width = 23;
-      buttonIcon.height = 23;
-      this.button.appendChild(buttonIcon);
-      let buttonTextHolder = document.createElement("div");
-      buttonTextHolder.id = "cp-button-text-holder";
-      this.button.appendChild(buttonTextHolder);
-      let buttonText = document.createElement("span");
-      buttonText.id = "cp-button-text-span";
-      buttonText.innerHTML = this.content.statuses["not-checked"].buttonText;
-      buttonTextHolder.appendChild(buttonText);
-      // this.loadButtonImages();
+      this.setButtonIconAndText();
       this.checkSavedStatus(function (notSaved, statusData) {
         if (statusData) {
           self.setStatus(statusData);
@@ -160,6 +146,36 @@ const buttonContent = (lang = "en") => {
         });
         callback(null, "setup complete");
       });
+    }
+
+    setButtonIconAndText() {
+      const buttonIcon = document.getElementById("cp-button-icon");
+      console.log("button icon: ", buttonIcon);
+      if (!buttonIcon) {
+        console.log("setting button");
+        let setButtonIcon = document.createElement("img");
+        setButtonIcon.id = "cp-button-icon";
+        setButtonIcon.src =
+          "https://storage.googleapis.com/crewpass-production-loginbutton/cp-icon.png";
+        setButtonIcon.width = 23;
+        setButtonIcon.height = 23;
+        this.button.appendChild(setButtonIcon);
+      } else {
+        console.log("button icon found");
+      }
+      const buttonTextHolder = document.getElementById("cp-button-text-holder");
+      console.log("button text holder: ", buttonTextHolder);
+      if (!buttonTextHolder) {
+        console.log("setting button text holder");
+        let setButtonTextHolder = document.createElement("div");
+        setButtonTextHolder.id = "cp-button-text-holder";
+        this.button.appendChild(setButtonTextHolder);
+        let setButtonText = document.createElement("span");
+        setButtonText.id = "cp-button-text-span";
+        setButtonText.innerHTML =
+          this.content.statuses["not-checked"].buttonText;
+        setButtonTextHolder.appendChild(setButtonText);
+      }
     }
 
     setBackgroundImage(status) {
