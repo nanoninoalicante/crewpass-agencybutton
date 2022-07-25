@@ -2,7 +2,7 @@ require("dotenv").config();
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
-const ENVIRONMENT = process.env.ENVIRONMENT;
+const DEBUG = process.env.DEBUG;
 
 module.exports = (env) => {
   return {
@@ -10,7 +10,7 @@ module.exports = (env) => {
     mode: "production",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "cp.js",
+      filename: DEBUG ? "cp-debug.js" : "cp.js",
     },
     optimization: {
       minimize: true,
@@ -18,7 +18,7 @@ module.exports = (env) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: ENVIRONMENT !== "local",
+              drop_console: !DEBUG,
             },
           },
         }),
