@@ -14,7 +14,7 @@ steps:
     entrypoint: npm
     args: ['run', 'build']
   - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['cp', 'dist/cp-debug.js', 'gs://${PROJECT_ID}-loginbutton/${_APP_NAME}-${_APP_ENV}-${_APP_VERSION}-debug.js']
+    args: ['cp', 'dist/cp.js', 'gs://${PROJECT_ID}-loginbutton/${_APP_NAME}-${_APP_ENV}-${_APP_VERSION}-debug.js']
   - name: 'gcr.io/cloud-builders/gsutil'
     args: ['cp', 'public/button.css', 'gs://${PROJECT_ID}-loginbutton/${_APP_NAME}-${_APP_ENV}-${_APP_VERSION}.css']
   - name: 'gcr.io/cloud-builders/gsutil'

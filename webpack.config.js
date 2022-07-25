@@ -10,7 +10,7 @@ module.exports = (env) => {
     mode: "production",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: DEBUG ? "cp-debug.js" : "cp.js",
+      filename: "cp.js",
     },
     optimization: {
       minimize: true,
