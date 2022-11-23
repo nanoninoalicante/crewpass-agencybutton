@@ -159,6 +159,7 @@ const buttonContent = (lang = "en") => {
           "https://storage.googleapis.com/crewpass-production-loginbutton/cp-icon.png";
         setButtonIcon.width = 23;
         setButtonIcon.height = 23;
+        setButtonIcon.style = "width:23px;height:23px;";
         this.button.appendChild(setButtonIcon);
       } else {
         console.log("button icon found");
