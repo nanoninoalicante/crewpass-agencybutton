@@ -48,13 +48,19 @@ const agencyKeys = {
     [mappingKeys.email]: "hdn_18106:hdn_18108",
     [mappingKeys.name]: "hdn_18108:hdn_18106",
   },
+  jms: {
+    [mappingKeys.id]: "input_10:input_1_10",
+    [mappingKeys.status]: "input_8:input_1_8",
+    [mappingKeys.email]: "input_9:input_1_9",
+    [mappingKeys.name]: "input_11:input_1_11",
+  },
 };
 
 const agenciesConfig = {
-  "6345792": {
-    storeSession: false
-  }
-}
+  6345792: {
+    storeSession: false,
+  },
+};
 
 const agencyInputFormData = (data, agency) => {
   return remapData(agencyKeys[agency] || agencyKeys["default"], data);
