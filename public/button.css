@@ -25,7 +25,7 @@ div#cp-login-wrapper div#cp-login {
   max-width: 330px;
   height: auto;
   background-color: transparent;
-  padding: 6px 8px;
+  padding: 8px 12px;
   justify-content: space-between;
   align-items: center;
   font-size: 17px;
@@ -33,7 +33,7 @@ div#cp-login-wrapper div#cp-login {
   font-weight: 500;
   font-family: "Montserrat", "helvetica", sans-serif;
   border: none;
-  border-radius: 8px;
+  border-radius: 19px;
   cursor: pointer;
   letter-spacing: -0.5px;
   min-height: 24px;
