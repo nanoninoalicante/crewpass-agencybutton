@@ -120,6 +120,7 @@ const buttonContent = (lang = "en") => {
       };
       if (this.agency) {
         params.partnerId = this.agency;
+        params.partner = this.agency;
       }
       const searchParams = new URLSearchParams(params);
       return `${POPUP_URL}?${searchParams.toString()}`;
