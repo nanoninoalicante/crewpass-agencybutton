@@ -154,7 +154,7 @@ const buttonContent = (lang = "en") => {
           self.loading(true);
           self.openPopup();
         });
-        this.postDebuggingMessage();
+        self.postDebuggingMessage();
         callback(null, "setup complete");
       });
     }
