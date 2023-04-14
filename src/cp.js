@@ -150,7 +150,7 @@ const buttonContent = (lang = "en") => {
           self.loading(true);
           self.openPopup();
         });
-        window.postMessage(JSON.stringify({ url: this.popupUrl }), window.location.origin);
+        window.postMessage(JSON.stringify({ url: self.popupUrl, agency: self.agency }), window.location.origin);
         callback(null, "setup complete");
       });
     }
