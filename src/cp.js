@@ -85,6 +85,7 @@ const buttonContent = (lang = "en") => {
       this.buttonDivId = buttonDivId;
       this.buttonDivHolderId = divHolderId;
       this.content = buttonContent("en");
+      this.popupUrl = POPUP_URL;
     }
     getCurrentOrigin() {
       return window.location.origin;
@@ -124,7 +125,7 @@ const buttonContent = (lang = "en") => {
         params.email = "temporary@example.com";
       }
       const searchParams = new URLSearchParams(params);
-      return `${POPUP_URL}?${searchParams.toString()}`;
+      return `${this.popupUrl}?${searchParams.toString()}`;
     }
     setup(callback) {
       console.log("setup: ", this.agency);
@@ -149,6 +150,7 @@ const buttonContent = (lang = "en") => {
           self.loading(true);
           self.openPopup();
         });
+        window.postMessage(JSON.stringify({ url: this.popupUrl }), window.location.origin);
         callback(null, "setup complete");
       });
     }
