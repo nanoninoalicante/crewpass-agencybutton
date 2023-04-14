@@ -151,7 +151,7 @@ const buttonContent = (lang = "en") => {
         }
         self.button.addEventListener("click", function () {
           console.log("clicked");
-          self.loading(true);
+          // self.loading(true);
           self.openPopup();
         });
         self.postDebuggingMessage();
