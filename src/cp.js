@@ -243,7 +243,7 @@ const buttonContent = (lang = "en") => {
       console.log("callback: ", res);
       this.button = document.querySelector("div#cp-login");
       if (!res.status || res.status === "closed") {
-        this.loading(false);
+        // this.loading(false);
         return null;
       }
       this.setStatus(res);
