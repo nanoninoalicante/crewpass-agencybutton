@@ -4,6 +4,8 @@ const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";
 const POPUP_URL = process.env.POPUP_URL || "https://verify.crewpass.co.uk";
+const COMMIT_ID = process.env.COMMIT_ID || "commit_id";
+const ENVIRONMENT = process.env.ENVIRONMENT || "dev";
 const buttonContent = (lang = "en") => {
   const content = {
     en: {
@@ -86,6 +88,8 @@ const buttonContent = (lang = "en") => {
       this.buttonDivHolderId = divHolderId;
       this.content = buttonContent("en");
       this.popupUrl = POPUP_URL;
+      this.env = ENVIRONMENT;
+      this.commitId = COMMIT_ID;
     }
     getCurrentOrigin() {
       return window.location.origin;
@@ -150,11 +154,13 @@ const buttonContent = (lang = "en") => {
           self.loading(true);
           self.openPopup();
         });
-        window.postMessage(JSON.stringify({ url: self.popupUrl, agency: self.agency }), window.location.origin);
+        this.postDebuggingMessage();
         callback(null, "setup complete");
       });
     }
-
+    postDebuggingMessage() {
+      window.postMessage(JSON.stringify({ url: this.getLoginPopupUrl(), agency: this.agency, target: "crewpass", type: "debugging", commitId: this.commitId, env: this.env }), window.location.origin);
+    }
     setButtonIconAndText() {
       const buttonIcon = document.getElementById("cp-button-icon");
       console.log("button icon: ", buttonIcon);
