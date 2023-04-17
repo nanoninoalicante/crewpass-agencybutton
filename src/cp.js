@@ -77,6 +77,7 @@ const buttonContent = (lang = "en") => {
       v: vendor,
       divId: buttonDivId = "cp-login",
       holderId: divHolderId = "cp-login-wrapper",
+      popupUrl: popupUrl = POPUP_URL,
     }) {
       this.agency = vendor;
       this.button = "";
@@ -87,7 +88,7 @@ const buttonContent = (lang = "en") => {
       this.buttonDivId = buttonDivId;
       this.buttonDivHolderId = divHolderId;
       this.content = buttonContent("en");
-      this.popupUrl = POPUP_URL;
+      this.popupUrl = popupUrl || POPUP_URL;
       this.env = ENVIRONMENT;
       this.commitId = COMMIT_ID;
     }
