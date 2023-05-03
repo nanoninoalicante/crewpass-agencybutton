@@ -126,8 +126,8 @@ const buttonContent = (lang = "en") => {
       };
       if (this.agency) {
         params.partnerId = this.agency;
-        params.partner = this.agency;
-        params.email = "temporary@example.com";
+        params.partner = "agency";
+        params.partnername = this.agency;
       }
       const searchParams = new URLSearchParams(params);
       return `${this.popupUrl}?${searchParams.toString()}`;
