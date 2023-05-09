@@ -11,6 +11,7 @@ steps:
       - 'VERSION=${_VERSION}'
       - 'POPUP_URL=${_POPUP_URL}'
       - 'COMMIT_ID=${SHORT_SHA}'
+      - 'DEBUG=${_DEBUG}'
     entrypoint: npm
     args: ['run', 'build']
   - name: 'gcr.io/cloud-builders/gsutil'
