@@ -11,7 +11,9 @@ const { agencyInputFormData, agenciesConfig } = require("./agencies");
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";
-const POPUP_URL = process.env.POPUP_URL || "https://verify.crewpass.co.uk";
+const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk";
+const COMMIT_ID = process.env.COMMIT_ID || "commit_id";
+const ENVIRONMENT = process.env.ENVIRONMENT || "dev";
 const buttonContent = (lang = "en") => {
   const content = {
     en: {
@@ -83,6 +85,7 @@ const buttonContent = (lang = "en") => {
       v: vendor,
       divId: buttonDivId = "cp-login",
       holderId: divHolderId = "cp-login-wrapper",
+      popupUrl: popupUrl = POPUP_URL,
     }) {
       this.agency = vendor;
       this.button = "";
@@ -93,6 +96,9 @@ const buttonContent = (lang = "en") => {
       this.buttonDivId = buttonDivId;
       this.buttonDivHolderId = divHolderId;
       this.content = buttonContent("en");
+      this.popupUrl = popupUrl || POPUP_URL;
+      this.env = ENVIRONMENT;
+      this.commitId = COMMIT_ID;
     }
     getCurrentOrigin() {
       return window.location.origin;
@@ -119,15 +125,20 @@ const buttonContent = (lang = "en") => {
     }
 
     getLoginPopupUrl() {
-      const params = {
+      let params = {
         origin: this.getCurrentOrigin(),
         utm_id: "verify-with-crewpass",
         utm_source: "integration-popup",
         utm_medium: "popup",
         utm_campaign: this.agency || "agency-not-set",
       };
+      if (this.agency) {
+        params.partnerId = this.agency;
+        params.partner = "agency";
+        params.partnername = this.agency;
+      }
       const searchParams = new URLSearchParams(params);
-      return `${POPUP_URL}?${searchParams.toString()}`;
+      return `${this.popupUrl}?${searchParams.toString()}`;
     }
     setup(callback) {
       console.log("setup: ", this.agency);
@@ -149,13 +160,16 @@ const buttonContent = (lang = "en") => {
         }
         self.button.addEventListener("click", function () {
           console.log("clicked");
-          self.loading(true);
+          // self.loading(true);
           self.openPopup();
         });
+        self.postDebuggingMessage();
         callback(null, "setup complete");
       });
     }
-
+    postDebuggingMessage() {
+      window.postMessage(JSON.stringify({ url: this.getLoginPopupUrl(), agency: this.agency, target: "crewpass", type: "debugging", commitId: this.commitId, env: this.env }), window.location.origin);
+    }
     setButtonIconAndText() {
       const buttonIcon = document.getElementById("cp-button-icon");
       console.log("button icon: ", buttonIcon);
@@ -238,7 +252,7 @@ const buttonContent = (lang = "en") => {
       console.log("callback: ", res);
       this.button = document.querySelector("div#cp-login");
       if (!res.status || res.status === "closed") {
-        this.loading(false);
+        // this.loading(false);
         return null;
       }
       this.setStatus(res);
@@ -292,28 +306,38 @@ const buttonContent = (lang = "en") => {
         "crewpass-crew-crewUniqueId": this.user.crewUniqueId,
         "crewpass-crew-name": this.user.name,
       };
-      const agencyResponseFormData = agencyInputFormData(
+      const { agencyResponseFormData, formId } = agencyInputFormData(
         standardResponse,
         this.agency
       );
-      console.log("agency form response: ", agencyResponseFormData);
+      console.log(`agency - ${this.agency} form response: `, agencyResponseFormData);
       for (const key in agencyResponseFormData) {
-        this.attachResponseToForm(key, agencyResponseFormData[key]);
+        this.attachResponseToForm(key, agencyResponseFormData[key], formId);
       }
     }
 
-    attachResponseToForm(inputIdAndName, value) {
-      const form = document.querySelector("form");
+    attachResponseToForm(inputIdAndName, value, formId = null) {
+      console.log(inputIdAndName, value);
+      if (value === null || value === undefined) return { message: "missing form value" };
+      let form = document.querySelector("form");
+      console.log("formid: ", formId);
+      // if agency has a custom form ID
+      if (formId) {
+        form = document.getElementById(value);
+      }
       if (!form) {
+        console.log('cannot find form');
         return { message: "cannot find form" };
       }
       const name = inputIdAndName.split(":")[0];
       const id = inputIdAndName.split(":")[1];
       console.log("form: ", form);
-      let input = document.querySelector("input#" + id);
+      let input = form.querySelector("input#" + id);
       if (input) {
         console.log("input exists: ", input);
+        return { message: "input exists" };
       } else {
+        console.log("creating input: ", name);
         input = document.createElement("input");
       }
       input.setAttribute("id", id);

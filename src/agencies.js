@@ -49,6 +49,7 @@ const agencyKeys = {
     [mappingKeys.name]: "hdn_18108:hdn_18106",
   },
   jms: {
+    formId: "gform_1",
     [mappingKeys.id]: "input_10:input_1_10",
     [mappingKeys.status]: "input_8:input_1_8",
     [mappingKeys.email]: "input_9:input_1_9",
@@ -63,7 +64,8 @@ const agenciesConfig = {
 };
 
 const agencyInputFormData = (data, agency) => {
-  return remapData(agencyKeys[agency] || agencyKeys["default"], data);
+  const agencyResponseFormData = remapData(agencyKeys[agency] || agencyKeys["default"], data);
+  return { agencyResponseFormData, formId: agencyKeys[agency].formId || null }
 };
 
 module.exports.agencyInputFormData = agencyInputFormData;
