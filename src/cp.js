@@ -323,7 +323,7 @@ const buttonContent = (lang = "en") => {
       console.log("formid: ", formId);
       // if agency has a custom form ID
       if (formId) {
-        form = document.getElementById(value);
+        form = document.getElementById(formId);
       }
       if (!form) {
         console.log('cannot find form');
