@@ -335,6 +335,8 @@ const buttonContent = (lang = "en") => {
       let input = form.querySelector("input#" + id);
       if (input) {
         console.log("input exists: ", input);
+
+        input.setAttribute("value", value);
         return { message: "input exists" };
       } else {
         console.log("creating input: ", name);
