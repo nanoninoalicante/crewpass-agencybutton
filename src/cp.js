@@ -1,4 +1,12 @@
 "use strict";
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://0460bea65d3748689e2c035bd2393a6b@o962154.ingest.sentry.io/6600060",
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 const { agencyInputFormData, agenciesConfig } = require("./agencies");
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||

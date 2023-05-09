@@ -58,10 +58,10 @@ const agencyKeys = {
 };
 
 const agenciesConfig = {
-  "6345792": {
-    storeSession: false
-  }
-}
+  6345792: {
+    storeSession: false,
+  },
+};
 
 const agencyInputFormData = (data, agency) => {
   const agencyResponseFormData = remapData(agencyKeys[agency] || agencyKeys["default"], data);

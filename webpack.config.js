@@ -4,6 +4,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 const ENVIRONMENT = process.env.ENVIRONMENT;
 const COMMIT_ID = process.env.COMMIT_ID || "commitId";
+const DEBUG = process.env.DEBUG || false;
 
 module.exports = (env) => {
   return {
@@ -19,7 +20,7 @@ module.exports = (env) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: ENVIRONMENT !== "local",
+              drop_console: !DEBUG,
             },
           },
         }),
