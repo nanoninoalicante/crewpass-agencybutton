@@ -3,7 +3,7 @@ const { agencyInputFormData, agenciesConfig } = require("./agencies");
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
   "https://storage.googleapis.com/crewpass-development-loginbutton";
-const POPUP_URL = process.env.POPUP_URL || "https://verify.crewpass.co.uk";
+const POPUP_URL = process.env.POPUP_URL || "https://verify-dev.crewpass.co.uk";
 const COMMIT_ID = process.env.COMMIT_ID || "commit_id";
 const ENVIRONMENT = process.env.ENVIRONMENT || "dev";
 const buttonContent = (lang = "en") => {
@@ -298,28 +298,38 @@ const buttonContent = (lang = "en") => {
         "crewpass-crew-crewUniqueId": this.user.crewUniqueId,
         "crewpass-crew-name": this.user.name,
       };
-      const agencyResponseFormData = agencyInputFormData(
+      const { agencyResponseFormData, formId } = agencyInputFormData(
         standardResponse,
         this.agency
       );
-      console.log("agency form response: ", agencyResponseFormData);
+      console.log(`agency - ${this.agency} form response: `, agencyResponseFormData);
       for (const key in agencyResponseFormData) {
-        this.attachResponseToForm(key, agencyResponseFormData[key]);
+        this.attachResponseToForm(key, agencyResponseFormData[key], formId);
       }
     }
 
-    attachResponseToForm(inputIdAndName, value) {
-      const form = document.querySelector("form");
+    attachResponseToForm(inputIdAndName, value, formId = null) {
+      console.log(inputIdAndName, value);
+      if (value === null || value === undefined) return { message: "missing form value" };
+      let form = document.querySelector("form");
+      console.log("formid: ", formId);
+      // if agency has a custom form ID
+      if (formId) {
+        form = document.getElementById(value);
+      }
       if (!form) {
+        console.log('cannot find form');
         return { message: "cannot find form" };
       }
       const name = inputIdAndName.split(":")[0];
       const id = inputIdAndName.split(":")[1];
       console.log("form: ", form);
-      let input = document.querySelector("input#" + id);
+      let input = form.querySelector("input#" + id);
       if (input) {
         console.log("input exists: ", input);
+        return { message: "input exists" };
       } else {
+        console.log("creating input: ", name);
         input = document.createElement("input");
       }
       input.setAttribute("id", id);
