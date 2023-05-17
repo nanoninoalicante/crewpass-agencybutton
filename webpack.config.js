@@ -4,7 +4,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 const ENVIRONMENT = process.env.ENVIRONMENT;
 const COMMIT_ID = process.env.COMMIT_ID || "commitId";
-const DEBUG = process.env.DEBUG || false;
+const DEBUG = true;
 
 module.exports = (env) => {
   return {
