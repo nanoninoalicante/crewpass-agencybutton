@@ -20,7 +20,7 @@ module.exports = (env) => {
         new TerserPlugin({
           terserOptions: {
             compress: {
-              drop_console: !DEBUG,
+              drop_console: true,
             },
           },
         }),
