@@ -65,7 +65,8 @@ const agenciesConfig = {
 
 const agencyInputFormData = (data, agency) => {
   const agencyResponseFormData = remapData(agencyKeys[agency] || agencyKeys["default"], data);
-  return { agencyResponseFormData, formId: agencyKeys[agency].formId || null }
+  const formId = agencyKeys[agency] ? agencyKeys[agency].formId || null : null;
+  return { agencyResponseFormData, formId }
 };
 
 module.exports.agencyInputFormData = agencyInputFormData;
