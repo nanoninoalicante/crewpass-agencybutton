@@ -168,12 +168,30 @@ const buttonContent = (lang = "en") => {
           // self.loading(true);
           self.openPopup();
         });
+
         self.postDebuggingMessage();
         callback(null, "setup complete");
       });
+
     }
     postDebuggingMessage() {
-      window.postMessage(JSON.stringify({ url: this.getLoginPopupUrl(), agency: this.agency, target: "crewpass", type: "debugging", commitId: this.commitId, env: this.env }), window.location.origin);
+      console.log("publish debugging message");
+      let self = this;
+      const debugginEventListener = window.addEventListener(
+        "message",
+        function (event) {
+          if (event.origin === self.getCurrentOrigin() && event.data) {
+            try {
+              const eventData = JSON.parse(event.data);
+              if (eventData.type === "debugging") {
+                console.log("debugging event: ", eventData);
+              }
+            } catch (e) { }
+          }
+        },
+        false
+      );
+      window.postMessage(JSON.stringify({ url: this.getLoginPopupUrl(), popupOrigin: this.getCrewPassDashboardOrigin(), agency: this.agency, target: "crewpass", type: "debugging", commitId: this.commitId, env: this.env }), window.location.origin);
     }
     setButtonIconAndText() {
       const buttonIcon = document.getElementById("cp-button-icon");
@@ -218,6 +236,7 @@ const buttonContent = (lang = "en") => {
     t(callback) {
       this.setup(function (error, res) {
         if (error) {
+          console.log("error: ", error);
           return !callback ? error : callback(error);
         }
         return !callback ? res : callback(res);
@@ -248,6 +267,10 @@ const buttonContent = (lang = "en") => {
             console.log("event: ", event.data);
             const eventData = JSON.parse(event.data);
             self.popupCallback(eventData);
+          }
+
+          if (event.origin === self.getCurrentOrigin() && event.data) {
+            console.log("debuggin event: ", event.data);
           }
         },
         false
