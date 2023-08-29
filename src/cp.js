@@ -233,7 +233,7 @@ const buttonContent = (lang = "en") => {
     openPopup() {
       let self = this;
       console.log("opening popup: ", self.getLoginPopupUrl());
-      console.log("popup origin url: ", self.getCrewPassDashboardOrigin()());
+      console.log("popup origin url: ", self.getCrewPassDashboardOrigin());
       const cpLoginPopup = window.open(
         this.getLoginPopupUrl(),
         "cpLoginPopup",
