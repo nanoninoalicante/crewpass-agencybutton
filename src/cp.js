@@ -1,12 +1,12 @@
 "use strict";
-import * as Sentry from "@sentry/browser";
-import { BrowserTracing } from "@sentry/tracing";
+// import * as Sentry from "@sentry/browser";
+// import { BrowserTracing } from "@sentry/tracing";
 
-Sentry.init({
-  dsn: "https://0460bea65d3748689e2c035bd2393a6b@o962154.ingest.sentry.io/6600060",
-  integrations: [new BrowserTracing()],
-  tracesSampleRate: 1.0,
-});
+// Sentry.init({
+//   dsn: "https://0460bea65d3748689e2c035bd2393a6b@o962154.ingest.sentry.io/6600060",
+//   integrations: [new BrowserTracing()],
+//   tracesSampleRate: 1.0,
+// });
 const { agencyInputFormData, agenciesConfig } = require("./agencies");
 const BASE_CDN_URL =
   process.env.BASE_CDN_URL ||
@@ -100,6 +100,7 @@ const buttonContent = (lang = "en") => {
       this.env = ENVIRONMENT;
       this.commitId = COMMIT_ID;
     }
+
     getCurrentOrigin() {
       return window.location.origin;
     }
