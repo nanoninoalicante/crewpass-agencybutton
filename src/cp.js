@@ -228,6 +228,7 @@ const buttonContent = (lang = "en") => {
 
     openPopup() {
       let self = this;
+      console.log("opening popup: ", this.getLoginPopupUrl());
       const cpLoginPopup = window.open(
         this.getLoginPopupUrl(),
         "cpLoginPopup",
@@ -237,8 +238,8 @@ const buttonContent = (lang = "en") => {
       window.addEventListener(
         "message",
         function (event) {
-          console.log("event: ", event.data);
-          if (event.origin !== self.getCurrentOrigin()) {
+          if (event.origin !== self.getCurrentOrigin() && event.data && event.data.status) {
+            console.log("event: ", event.data);
             const eventData = JSON.parse(event.data);
             self.popupCallback(eventData);
           }
