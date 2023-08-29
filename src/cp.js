@@ -103,6 +103,10 @@ const buttonContent = (lang = "en") => {
     getCurrentOrigin() {
       return window.location.origin;
     }
+    getCrewPassDashboardOrigin() {
+      const popupUrl = new URL(this.popupUrl);
+      return popupUrl.origin;
+    }
     preloadImage(url) {
       const img = new Image();
       img.src = url;
@@ -228,7 +232,8 @@ const buttonContent = (lang = "en") => {
 
     openPopup() {
       let self = this;
-      console.log("opening popup: ", this.getLoginPopupUrl());
+      console.log("opening popup: ", self.getLoginPopupUrl());
+      console.log("popup origin url: ", self.self.getCrewPassDashboardOrigin()());
       const cpLoginPopup = window.open(
         this.getLoginPopupUrl(),
         "cpLoginPopup",
@@ -238,7 +243,7 @@ const buttonContent = (lang = "en") => {
       window.addEventListener(
         "message",
         function (event) {
-          if (event.origin !== self.getCurrentOrigin() && event.data && event.data.status) {
+          if (event.origin === self.getCrewPassDashboardOrigin() && event.data) {
             console.log("event: ", event.data);
             const eventData = JSON.parse(event.data);
             self.popupCallback(eventData);
